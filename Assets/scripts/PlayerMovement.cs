@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveDirection;
     private Vector2 lastMoveDirection;
 
+   // public AudioClip soundEffect;
 
     private bool enterAllowed;
     private string sceneToLoad;
@@ -34,7 +35,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (collision.gameObject.name == "key"){
-           keyObject.SetActive(false);
+            // AudioSource.PlayClipAtPoint(soundEffect,transform.position);
+
+            // AudioSource soundManager = GameObject.Find("SoundManager").GetComponent<AudioSource>();
+            //soundManager.Play();
+            AudioSource soundManager = GameObject.Find("key").GetComponent<AudioSource>();
+            soundManager.Play();
+            Debug.Log("Sound Played");
+            keyObject.SetActive(false);
             hasKey = true;
 
 
