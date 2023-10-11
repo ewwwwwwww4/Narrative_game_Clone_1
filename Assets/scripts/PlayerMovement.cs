@@ -12,7 +12,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveDirection;
     private Vector2 lastMoveDirection;
 
-   // public AudioClip soundEffect;
+    public AudioClip soundEffect;
+    public AudioClip soundEffect2;
+    public AudioClip soundEffect3;
+    public AudioClip soundEffect4;
+    public AudioClip soundEffect5;
 
     private bool enterAllowed;
     private string sceneToLoad;
@@ -32,15 +36,16 @@ public class PlayerMovement : MonoBehaviour
         {
             sceneToLoad = "start";
             enterAllowed = true;
+            AudioSource.PlayClipAtPoint(soundEffect3, transform.position);
         }
 
         if (collision.gameObject.name == "key"){
-            // AudioSource.PlayClipAtPoint(soundEffect,transform.position);
+            AudioSource.PlayClipAtPoint(soundEffect,transform.position);
 
             // AudioSource soundManager = GameObject.Find("SoundManager").GetComponent<AudioSource>();
             //soundManager.Play();
-            AudioSource soundManager = GameObject.Find("key").GetComponent<AudioSource>();
-            soundManager.Play();
+           // AudioSource soundManager = GameObject.Find("key").GetComponent<AudioSource>();
+            //soundManager.Play();
             Debug.Log("Sound Played");
             keyObject.SetActive(false);
             hasKey = true;
@@ -53,11 +58,14 @@ public class PlayerMovement : MonoBehaviour
             if (!hasKey)
             {
                 doorObject.SetActive(true);
-             
+                AudioSource.PlayClipAtPoint(soundEffect4, transform.position);
+
             }
             else
             {
-                doorObject.SetActive(false); 
+                doorObject.SetActive(false);
+                AudioSource.PlayClipAtPoint(soundEffect2, transform.position);
+
             }
         }
 
@@ -68,7 +76,8 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 nokeyText.SetActive(true);
-                InvokeRepeating("Hide", 1.0f, 0f);
+                InvokeRepeating("Hide", 2.0f, 0f);
+                AudioSource.PlayClipAtPoint(soundEffect5, transform.position);
             }
         }
         else
@@ -77,7 +86,8 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 havekeyText.SetActive(true);
-                InvokeRepeating("Hide", 1.0f, 0f);
+                InvokeRepeating("Hide", 2.0f, 0f);
+                AudioSource.PlayClipAtPoint(soundEffect5, transform.position);
             }
         }
 
@@ -87,7 +97,8 @@ public class PlayerMovement : MonoBehaviour
         {
 
             insideText.SetActive(true);
-            InvokeRepeating("Hide", 1.0f, 0f);
+            InvokeRepeating("Hide", 2.0f, 0f);
+            AudioSource.PlayClipAtPoint(soundEffect5, transform.position);
         }
     }
     private void Hide()
