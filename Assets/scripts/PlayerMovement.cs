@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,12 +11,49 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
     private Vector2 moveDirection;
     private Vector2 lastMoveDirection;
- 
+
+
+    private bool enterAllowed;
+    private string sceneToLoad;
+
+    public GameObject keyObject;
+    public GameObject doorObject;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Collided with" + collision.gameObject.name);
+        if (collision.GetComponent<bushdoor>())
+        {
+            sceneToLoad = "start";
+            enterAllowed = true;
+        }
+
+       // if (collision.gameObject.name == "key"){
+          //  keyObject.SetActive(false); }
+
+
+        if (collision.gameObject.name == "door") 
+        { if (!keyObject.activeSelf)
+              {     doorObject.SetActive(false);  } }
+
+
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        enterAllowed = false;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
         ProcessInputs();
         Animate();
+
+        if (enterAllowed)
+        {
+            SceneManager.LoadScene(sceneToLoad);
+        }
     }
 
     void FixedUpdate()
