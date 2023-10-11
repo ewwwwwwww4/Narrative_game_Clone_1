@@ -18,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject keyObject;
     public GameObject doorObject;
+    public GameObject nokeyText;
+    public GameObject havekeyText;
+    public GameObject insideText;
+
+    private bool hasKey = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -28,15 +33,60 @@ public class PlayerMovement : MonoBehaviour
             enterAllowed = true;
         }
 
-       // if (collision.gameObject.name == "key"){
-          //  keyObject.SetActive(false); }
+        if (collision.gameObject.name == "key"){
+           keyObject.SetActive(false);
+            hasKey = true;
 
 
-        if (collision.gameObject.name == "door") 
-        { if (!keyObject.activeSelf)
-              {     doorObject.SetActive(false);  } }
+        }
+
+        if (collision.gameObject.name == "door") //&& (!keyObject.activeSelf))
+        {
+            if (!hasKey)
+            {
+                doorObject.SetActive(true);
+             
+            }
+            else
+            {
+                doorObject.SetActive(false); 
+            }
+        }
+
+        // { doorObject.SetActive(false);  } 
+        if (!hasKey)
+        {
+            if ((collision.gameObject.tag == "npc_outside"))
+            {
+
+                nokeyText.SetActive(true);
+                InvokeRepeating("Hide", 1.0f, 0f);
+            }
+        }
+        else
+        {
+            if ((collision.gameObject.tag == "npc_outside"))
+            {
+
+                havekeyText.SetActive(true);
+                InvokeRepeating("Hide", 1.0f, 0f);
+            }
+        }
 
 
+
+            if ((collision.gameObject.tag == "npc_inside"))
+        {
+
+            insideText.SetActive(true);
+            InvokeRepeating("Hide", 1.0f, 0f);
+        }
+    }
+    private void Hide()
+    {
+        nokeyText.SetActive(false);
+        havekeyText.SetActive(false);
+        insideText.SetActive(false);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -47,6 +97,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Space key is pressed.");
+        }
         ProcessInputs();
         Animate();
 

@@ -11,7 +11,7 @@ public class key : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             Debug.Log("picking");
-            door.SetActive(false);
+           // door.SetActive(false);
 
             this.gameObject.SetActive(false);
         }
